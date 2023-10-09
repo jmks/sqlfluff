@@ -1,0 +1,40 @@
+# YML test files are auto-generated from SQL files and should not be edited by
+# hand. To help enforce this, the "hash" field in the file must match a hash
+# computed by SQLFluff when running the tests. Please run
+# `python test/generate_parse_fixture_yml.py`  to generate them after adding or
+# altering SQL files.
+_hash: eaee6bcddb87f8b96855d73b2983a6d8ffa7eaf4c9431a6a8e7e7d45ff834596
+file:
+- statement:
+    alter_network_policy_statement:
+    - keyword: ALTER
+    - keyword: NETWORK
+    - keyword: POLICY
+    - naked_identifier: mypolicy1
+    - keyword: UNSET
+    - keyword: COMMENT
+- statement_terminator: ;
+- statement:
+    alter_network_policy_statement:
+    - keyword: ALTER
+    - keyword: NETWORK
+    - keyword: POLICY
+    - keyword: IF
+    - keyword: EXISTS
+    - naked_identifier: mypolicy1
+    - keyword: REMOVE
+    - keyword: BLOCKED_NETWORK_RULE_LIST
+    - comparison_operator:
+        raw_comparison_operator: '='
+    - naked_identifier: blocked_list
+- statement_terminator: ;
+- statement:
+    alter_network_policy_statement:
+    - keyword: ALTER
+    - keyword: NETWORK
+    - keyword: POLICY
+    - quoted_identifier: '"my quoted policy"'
+    - keyword: RENAME
+    - keyword: TO
+    - naked_identifier: unquoted_policy
+- statement_terminator: ;

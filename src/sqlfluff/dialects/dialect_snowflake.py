@@ -1070,6 +1070,7 @@ class StatementSegment(ansi.StatementSegment):
             Ref("CreateSequenceStatementSegment"),
             Ref("AlterSequenceStatementSegment"),
             Ref("AlterDatabaseSegment"),
+            Ref("AlterNetworkPolicySegment"),
         ],
         remove=[
             Ref("CreateIndexStatementSegment"),
@@ -7224,6 +7225,45 @@ class AlterDatabaseSegment(BaseSegment):
                         "DEFAULT_DDL_COLLATION",
                         "COMMENT",
                     ),
+                ),
+            ),
+        ),
+    )
+
+class AlterNetworkPolicySegment(BaseSegment):
+    """An `ALTER NETWORK POLICY` statement.
+
+    https://docs.snowflake.com/en/sql-reference/sql/alter-network-policy
+    """
+
+    type = "alter_network_policy_statement"
+
+    match_grammar = Sequence(
+        "ALTER",
+        "NETWORK",
+        "POLICY",
+        Ref("IfExistsGrammar", optional=True),
+        OneOf(
+            Ref("NakedIdentifierSegment"),
+            Ref("QuotedIdentifierSegment"),
+        ),
+        OneOf(
+            Sequence("UNSET", "COMMENT"),
+            Sequence(
+                OneOf("ADD", "REMOVE"),
+                OneOf(
+                    "ALLOWED_NETWORK_RULE_LIST",
+                    "BLOCKED_NETWORK_RULE_LIST",
+                ),
+                Ref("EqualsSegment"),
+                Ref("SingleIdentifierGrammar"),
+            ),
+            Sequence(
+                "RENAME",
+                "TO",
+                OneOf(
+                    Ref("NakedIdentifierSegment"),
+                    Ref("QuotedIdentifierSegment"),
                 ),
             ),
         ),
